@@ -1,4 +1,4 @@
-# gpl
+# gpleasymode
 
 A new Flutter project.
 

@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:gpl/services/apiService.dart';
-import 'package:gpl/views/login.dart';
-import 'package:gpl/views/showAllPOI.dart';
-
-void setupLocator() {
-  GetIt.I.registerLazySingleton(() => APIService());
-}
+import 'package:gpleasymode/views/login.dart';
 
 void main() {
-  setupLocator();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      home: Login(),
       theme: ThemeData(
           primaryColor: Colors.orange[800],
           secondaryHeaderColor: Colors.orange[400],
@@ -41,6 +37,16 @@ class MyApp extends StatelessWidget {
               color: Colors.black,
               fontFamily: 'Jost',
             ),
+            headline4: TextStyle(
+              fontSize: 14.0,
+              color: Colors.black,
+              fontFamily: 'Jost',
+            ),
+            headline5: TextStyle(
+              fontSize: 36.0,
+              color: Colors.orange[800],
+              fontFamily: 'Jost',
+            ),
             bodyText1: TextStyle(
               fontSize: 14.0,
               color: Colors.grey[700],
@@ -52,7 +58,6 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Jost',
             ),
           )),
-      home: Login(),
     );
   }
 }

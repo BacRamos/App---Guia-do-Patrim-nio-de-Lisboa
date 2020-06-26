@@ -1,56 +1,56 @@
+import 'dart:convert';
+
 import 'package:geocoder/geocoder.dart';
+import 'package:gpleasymode/models/Comments.dart';
+
+List<POI> poiFromJson(String str) =>
+    List<POI>.from(json.decode(str).map((x) => POI.fromJson(x)));
 
 class POI {
-  int poiID;
-  String poiName;
-  double poiLon;
-  double poiLat;
-  String poiDesc;
-  String poiAddress;
-  List<String> poiImgUrl;
-  double poiRating;
-  List<double> poiRatingList;
-  List<String> poiComments;
+  int idPoi;
+  String name;
+  List<String> img;
+  String longitude;
+  String latitude;
+  String address;
+  String description;
+  double rating;
+  List<Comment> comments;
+  double distance;
 
   POI({
-    this.poiID,
-    this.poiDesc,
-    this.poiLat,
-    this.poiLon,
-    this.poiName,
+    this.idPoi,
+    this.name,
+    this.img,
+    this.longitude,
+    this.latitude,
+    this.description,
   }) {
-    this.poiImgUrl = [];
-    this.poiRatingList = [];
-    this.poiComments = [];
+    img = List<String>();
+    comments = List<Comment>();
     getAddress();
   }
 
-  factory POI.fromJson(Map<String, dynamic> json) {
-    return POI(
-      poiName: json['name'],
-      poiLon: double.parse(json['longitude']),
-      poiLat: double.parse(json['latitude']),
-      poiID: json['idPOI'],
-      poiDesc: json['description'],
-    );
-  }
-
-  double getRating() {
-    double count = 0.0;
-    for (var item in this.poiRatingList) {
-      count += item;
-    }
-    this.poiRating = count / poiRatingList.length;
-    return poiRating;
-  }
+  factory POI.fromJson(Map<String, dynamic> json) => POI(
+        idPoi: json["idPOI"] as int,
+        name: json["name"],
+        longitude: json["longitude"],
+        latitude: json["latitude"],
+        description: json["description"],
+      );
 
   getAddress() async {
     try {
-      List<Address> p = await Geocoder.local
-          .findAddressesFromCoordinates(Coordinates(this.poiLat, this.poiLon));
-      this.poiAddress = "${p.first.addressLine}";
+      List<Address> p = await Geocoder.local.findAddressesFromCoordinates(
+          Coordinates(
+              double.parse(this.latitude), double.parse(this.longitude)));
+      this.address = "${p.first.addressLine}";
     } catch (e) {
       print(e);
     }
+  }
+
+  postDistance(double distance) {
+    this.distance = distance;
   }
 }
